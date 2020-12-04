@@ -1,0 +1,46 @@
+package day15;
+
+public class Random_Pointer {
+	public static ListNode copyRandomList(ListNode head) {
+		 
+		if (head == null)
+			return null;
+	 
+		ListNode p = head;
+	 
+		// copy every node and insert to list
+		while (p != null) {
+			ListNode copy = new ListNode(p.label);
+			copy.next = p.next;
+			p.next = copy;
+			p = copy.next;
+		}
+	 
+		// copy random pointer for each new node
+		p = head;
+		while (p != null) {
+			if (p.random != null)
+				p.next.random = p.random;
+			p = p.next.next;
+		}
+	 
+		// break list to two
+		p = head;
+		ListNode newHead = head.next;
+		while (p != null) {
+			ListNode temp = p.next;
+			p.next = temp.next;
+			if (temp.next != null)
+				temp.next = temp.next.next;
+			p = p.next;
+		}
+	 
+		return newHead;
+	}
+	public static void main(String[] args) {
+		ListNode l1 = new ListNode(1);
+		copyRandomList(l1);
+
+	}
+
+}
